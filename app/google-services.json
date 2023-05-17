@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "442318661564",
+    "project_id": "openchat-7d291",
+    "storage_bucket": "openchat-7d291.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:442318661564:android:c6f3a2f8650c3efdc82db9",
+        "android_client_info": {
+          "package_name": "com.example.openchat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "442318661564-p34qf0tdlqgcnce443ehugml0u8u6e6a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB0cHU8YakWcAWOncroUiQShXA68ZNz0M4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "442318661564-p34qf0tdlqgcnce443ehugml0u8u6e6a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
