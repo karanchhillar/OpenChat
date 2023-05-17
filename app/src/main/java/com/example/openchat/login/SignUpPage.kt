@@ -9,7 +9,10 @@ import android.widget.EditText
 import android.widget.Toast
 import com.example.openchat.MainActivity
 import com.example.openchat.R
+import com.example.openchat.User
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 
 class SignUpPage : AppCompatActivity() {
 
@@ -18,6 +21,7 @@ class SignUpPage : AppCompatActivity() {
     private lateinit var password : EditText
     private lateinit var signupButton: Button
     private lateinit var auth : FirebaseAuth
+    private lateinit var dbRef : DatabaseReference
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,6 +43,9 @@ class SignUpPage : AppCompatActivity() {
             auth.createUserWithEmailAndPassword(email.text.toString() , password.text.toString())
                 .addOnCompleteListener { task->
                     if (task.isSuccessful){
+
+                        addUserToDatabase(name.text.toString() , email.text.toString() , auth.currentUser?.uid!!)
+
                         Toast.makeText(this, "Created a new email", Toast.LENGTH_SHORT).show()
                         val intent = Intent(this , MainActivity::class.java)
                         startActivity(intent)
@@ -49,5 +56,11 @@ class SignUpPage : AppCompatActivity() {
                     }
                 }
         }
+    }
+
+    private fun addUserToDatabase(name: String, email: String, uid: String) {
+        dbRef = FirebaseDatabase.getInstance().getReference()
+
+        dbRef.child("user").child(uid).setValue(User(name , email, uid))
     }
 }
