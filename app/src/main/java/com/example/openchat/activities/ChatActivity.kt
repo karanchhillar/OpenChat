@@ -2,8 +2,11 @@ package com.example.openchat.activities
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.Rect
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -59,6 +62,25 @@ class ChatActivity : AppCompatActivity() {
         chatRecyclerView.scrollToPosition(messageAdapter.itemCount - 1)
 
 
+        // used for keyboard bt
+//        val rootView = findViewById<View>(android.R.id.content)
+//        rootView.viewTreeObserver.addOnGlobalLayoutListener {
+//            val rect = Rect()
+//            rootView.getWindowVisibleDisplayFrame(rect)
+//            val screenHeight = rootView.height
+//            val keyboardHeight = screenHeight - rect.bottom
+//
+//            if (keyboardHeight > screenHeight * 0.15) {
+//                (chatRecyclerView.layoutManager as LinearLayoutManager).reverseLayout = false
+//                adjustRecyclerViewHeightForKeyboard(true)
+//            } else {
+//                (chatRecyclerView.layoutManager as LinearLayoutManager).reverseLayout = true
+//                adjustRecyclerViewHeightForKeyboard(false)
+//            }
+//            chatRecyclerView.requestLayout()
+//        }
+
+
         //logic for adding data to recycler view
         DbRef.child("chats").child(senderRoom!!).child("messages")
             .addValueEventListener(object : ValueEventListener{
@@ -98,4 +120,25 @@ class ChatActivity : AppCompatActivity() {
 
 
     }
+//    private fun adjustRecyclerViewHeightForKeyboard(isKeyboardOpen: Boolean) {
+//        val layoutParams = chatRecyclerView.layoutParams as ViewGroup.MarginLayoutParams
+//
+//        if (isKeyboardOpen) {
+//            val keyboardHeight = calculateKeyboardHeight()
+//            layoutParams.bottomMargin = keyboardHeight
+//        } else {
+//            layoutParams.bottomMargin = 0
+//        }
+//        chatRecyclerView.layoutParams = layoutParams
+//    }
+//    private fun calculateKeyboardHeight(): Int {
+//        val rect = Rect()
+//        val rootView = findViewById<View>(android.R.id.content)
+//        rootView.getWindowVisibleDisplayFrame(rect)
+//        val screenHeight = rootView.height
+//        val keyboardHeight = screenHeight - rect.bottom
+//        return keyboardHeight
+//    }
+
+
 }
