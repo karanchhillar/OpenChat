@@ -56,6 +56,9 @@ class ChatActivity : AppCompatActivity() {
         chatRecyclerView.layoutManager = LinearLayoutManager(this)
         chatRecyclerView.adapter = messageAdapter
 
+        chatRecyclerView.scrollToPosition(messageAdapter.itemCount - 1)
+
+
         //logic for adding data to recycler view
         DbRef.child("chats").child(senderRoom!!).child("messages")
             .addValueEventListener(object : ValueEventListener{
@@ -66,6 +69,8 @@ class ChatActivity : AppCompatActivity() {
                     for (postSnapshot in snapshot.children){
                         val message = postSnapshot.getValue(Message::class.java)
                         messageList.add(message!!)
+                        chatRecyclerView.scrollToPosition(messageAdapter.itemCount - 1)
+
                     }
                     messageAdapter.notifyDataSetChanged()
                 }
