@@ -17,7 +17,7 @@
 
         <activity
             android:name=".activities.ChatActivity"
-            android:windowSoftInputMode="adjustResize"
+            android:windowSoftInputMode="adjustPan"
             android:exported="false"/>
         <activity
             android:name=".login.SignUpPage"
