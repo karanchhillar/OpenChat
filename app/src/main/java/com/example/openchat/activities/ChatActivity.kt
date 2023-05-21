@@ -1,18 +1,23 @@
 package com.example.openchat.activities
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.graphics.Rect
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.openchat.R
 import com.example.openchat.adapters.MessageAdapter
+import com.example.openchat.login.LoginPage
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -29,6 +34,7 @@ class ChatActivity : AppCompatActivity() {
     private lateinit var messageAdapter: MessageAdapter
     private lateinit var messageList: ArrayList<Message>
     private lateinit var DbRef : DatabaseReference
+    private lateinit var auth : FirebaseAuth
 
     var receiverRoom : String? = null
     var senderRoom : String? = null
@@ -60,25 +66,6 @@ class ChatActivity : AppCompatActivity() {
         chatRecyclerView.adapter = messageAdapter
 
         chatRecyclerView.scrollToPosition(messageAdapter.itemCount - 1)
-
-
-        // used for keyboard bt
-//        val rootView = findViewById<View>(android.R.id.content)
-//        rootView.viewTreeObserver.addOnGlobalLayoutListener {
-//            val rect = Rect()
-//            rootView.getWindowVisibleDisplayFrame(rect)
-//            val screenHeight = rootView.height
-//            val keyboardHeight = screenHeight - rect.bottom
-//
-//            if (keyboardHeight > screenHeight * 0.15) {
-//                (chatRecyclerView.layoutManager as LinearLayoutManager).reverseLayout = false
-//                adjustRecyclerViewHeightForKeyboard(true)
-//            } else {
-//                (chatRecyclerView.layoutManager as LinearLayoutManager).reverseLayout = true
-//                adjustRecyclerViewHeightForKeyboard(false)
-//            }
-//            chatRecyclerView.requestLayout()
-//        }
 
 
         //logic for adding data to recycler view
@@ -116,27 +103,29 @@ class ChatActivity : AppCompatActivity() {
             messageBox.text = ""
         }
 
-
     }
-//    private fun adjustRecyclerViewHeightForKeyboard(isKeyboardOpen: Boolean) {
-//        val layoutParams = chatRecyclerView.layoutParams as ViewGroup.MarginLayoutParams
-//
-//        if (isKeyboardOpen) {
-//            val keyboardHeight = calculateKeyboardHeight()
-//            layoutParams.bottomMargin = keyboardHeight
-//        } else {
-//            layoutParams.bottomMargin = 0
-//        }
-//        chatRecyclerView.layoutParams = layoutParams
-//    }
-//    private fun calculateKeyboardHeight(): Int {
-//        val rect = Rect()
-//        val rootView = findViewById<View>(android.R.id.content)
-//        rootView.getWindowVisibleDisplayFrame(rect)
-//        val screenHeight = rootView.height
-//        val keyboardHeight = screenHeight - rect.bottom
-//        return keyboardHeight
-//    }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.chat_menu , menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.delete_message){
+
+            DbRef.child("chats").child(senderRoom!!).child("messages").removeValue()
+                .addOnSuccessListener {
+                    DbRef.child("chats").child(receiverRoom!!).child("messages")
+                        .removeValue()
+
+                    Toast.makeText(this, "All messages deleted", Toast.LENGTH_SHORT).show()
+                }
+                .addOnFailureListener {
+                    Toast.makeText(this, "${it.message}", Toast.LENGTH_LONG).show()
+                }
+            return true
+        }
+        return true
+    }
 
 }
