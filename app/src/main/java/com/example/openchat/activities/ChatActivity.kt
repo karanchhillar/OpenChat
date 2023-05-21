@@ -113,7 +113,6 @@ class ChatActivity : AppCompatActivity() {
                     DbRef.child("chats").child(receiverRoom!!).child("messages").push()
                         .setValue(messageObject)
                 }
-
             messageBox.text = ""
         }
 
